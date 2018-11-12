@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GAME</title>
+
+  <!-- Added link to the jQuery Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Added a link to Bootstrap-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="row">
+
+      <!-- Game layout -->
+      <div class="col-lg-6">
+        <div class="card">
+          <h3 class="card-header">HANGMAN</h3>
+
+          <!-- stored data - data-value - button has to know what you want, I do not want 26 if/then statements-->
+
+          <div class="card-body">
+            <button id="button-1" class="btn btn-letter" data-value="A"><h1>A</h1></button>
+            <button id="button-2" class="btn btn-letter" data-value="B"><h1>B</h1></button>
+            <button id="button-3" class="btn btn-letter" data-value="C"><h1>C</h1></button>
+            
+            <button id="button-4" class="btn btn-letter" data-value="D"><h1>D</h1></button>
+            <button id="button-5" class="btn btn-letter" data-value="E"><h1>E</h1></button>
+            <button id="button-6" class="btn btn-letter" data-value="F"><h1>F</h1></button>
+            
+            <button id="button-7" class="btn btn-letter" data-value="G"><h1>G</h1></button>
+            <button id="button-8" class="btn btn-letter" data-value="H"><h1>H</h1></button>
+            <button id="button-9" class="btn btn-letter" data-value="I"><h1>I</h1></button>
+
+            <button id="button-10" class="btn btn-letter" data-value="J"><h1>J</h1></button>
+            <button id="button-11" class="btn btn-letter" data-value="K"><h1>K</h1></button>
+            <button id="button-12" class="btn btn-letter" data-value="L"><h1>L</h1></button>
+            
+            <button id="button-13" class="btn btn-letter" data-value="M"><h1>M</h1></button>
+            <button id="button-14" class="btn btn-letter" data-value="N"><h1>N</h1></button>
+            <button id="button-15" class="btn btn-letter" data-value="O"><h1>O</h1></button>
+            
+            <button id="button-16" class="btn btn-letter" data-value="P"><h1>P</h1></button>
+            <button id="button-17" class="btn btn-letter" data-value="Q"><h1>Q</h1></button>
+            <button id="button-18" class="btn btn-letter" data-value="R"><h1>R</h1></button>
+
+            
+            <button id="button-19" class="btn btn-letter" data-value="S"><h1>S</h1></button>
+            <button id="button-20" class="btn btn-letter" data-value="T"><h1>T</h1></button>
+            <button id="button-21" class="btn btn-letter" data-value="U"><h1>U</h1></button>
+           
+            <button id="button-22" class="btn btn-letter" data-value="V"><h1>V</h1></button>
+            <button id="button-23" class="btn btn-letter" data-value="W"><h1>W</h1></button>
+            <button id="button-24" class="btn btn-letter" data-value="X"><h1>X</h1></button>
+            
+            <button id="button-25" class="btn btn-letter" data-value="Y"><h1>Y</h1></button>
+            <button id="button-26" class="btn btn-letter" data-value="Z"><h1>Z</h1></button>
+                   
+            <button id="button-clear" class="btn btn-dark clear"><h1>Reset Game</h1></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div class="col-lg-6">
+        <div class="card">
+          <h4 class="card-header">Press any key to get started!</h4>
+          <div class="card-body">
+
+            <h5 class="blanks">_ _ _ _ _ _</h5>
+
+            <h6 id="first-number">Number of Guesses Remaining:</h6>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+
+//Global: Reset game
+
+//random word array 
+
+var words = ["Rumplestiltskin", "Cinderella", "Grimm"];
+var underscores = [];
+var lives = 6
+var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+var guessedLetters = [];
+
+
+//generate array, one random word is generated that the user must guess
+var randWord = words[Math.floor(Math.random()*words.length)];
+
+console.log(randWord)
+
+//random word is not on screen, but you get the # of underscoress that equals to the length of random word
+
+console.log(randWord.replace(/[^A-Z]/gi, "").length);
+
+
+//# of underscoress should = length of the random word
+function generateUnderscores() {
+    for(let i = 0; i < randWord.length; i++) {
+        underscores.push(' _ ');
+    }
+    return underscores;
+}
+
+generateUnderscores();
+
+$(".blanks").html(underscores);
+
+console.log (underscores)
+
+
+//player presses on a button, it should show the letter on screen
+
+//if right guess, letter shows on blanks, replacing the underscores
+
+//.on( events [, selector ] [, data ], handler ) handler is
+
+$(".btn-letter").on("click", function(){
+    var letterButton = $(this);
+    var guessedLetter = letterButton.attr("data-value");
+    
+
+
+
+//anomynous function do not have name
+
+//has user previously guessed the same letter before? If so alert: Letter has already been guessed
+
+    if (guessedLetters.includes(guessedLetter) === true) {
+        //letter already guessed
+        return
+    }
+    guessedLetters.push(guessedLetter)
+        //push the guessed letter into the array of guessed LETTERS.
+    console.log (guessedLetters)
+        //now the game will not let the player click the same button twice and generate that letter
+        //indents are intentional, shows ownership, ie is the code part of the button click function, part of the if function within the button click, another function altogether, etc.
+
+
+    //TO DO: compare guessed letter to letters in random word
+    
+    //if it is in there (includes) correct guess
+
+        if (randWord.includes(guessedLetter) === true) {
+            $(".blanks").html(guessedLetter);
+            
+    }
+
+    //else wrong guess
+})
+
+//reset
+
+//if guess is wrong, it shows below the right box-border
+
+//The player has 6 lives
+
+//If the guess is wrong, lives will go down by 1
+
+//If there are no lives left, alert: You lose! All your appeals have been denied. Your execution will be carried out (display date/time)
+
+//If all blanks are filled: alert YOu win! You have been granted a stay of execution.
+
+
+</script>
+</body>
+</html>
